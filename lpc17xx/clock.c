@@ -19,13 +19,9 @@ volatile t_clock g_systicks;
  * инициализация системного таймера
  * использует для этого RIT
  * ***********************************************************************/
-void clock_init(void)
+void clock_init(t_clock init_val)
 {
-#ifdef CLOCK_INIT_CB
-    g_systicks = clock_get_init_val();
-#else
-	g_systicks = 0;
-#endif
+	g_systicks = init_val;
 
 	LPC_RIT->RICTRL =0;
 	LPC_RIT->RICOUNTER = 0;
