@@ -23,6 +23,8 @@ void clock_init(t_clock init_val)
 {
 	g_systicks = init_val;
 
+	LPC_SC->PCONP |= LPC_SC_PCONP_PCRIT_Msk;
+
 	LPC_RIT->RICTRL =0;
 	LPC_RIT->RICOUNTER = 0;
     LPC_RIT->RICOMPVAL = SystemCoreClock / (4 * 1000);
