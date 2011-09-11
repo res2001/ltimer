@@ -66,7 +66,7 @@ timer_set(t_timer *t, t_clock interval)
     t->start = clock_time();
 }
 
-void timer_set_from(t_timer *t, t_clock interval, t_clock start_time)
+void timer_set_at(t_timer *t, t_clock interval, t_clock start_time)
 {
     t->interval = interval;
     t->start = start_time;
@@ -125,6 +125,11 @@ timer_restart(t_timer *t)
 int timer_expired(t_timer *t)
 {
   return (t_clock)(clock_time() - t->start) >= (t_clock)t->interval;
+}
+
+int timer_expired_at(t_timer *t, t_clock cur_time)
+{
+  return (t_clock)(cur_time - t->start) >= (t_clock)t->interval;
 }
 
 /*---------------------------------------------------------------------------*/
