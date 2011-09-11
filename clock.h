@@ -15,7 +15,7 @@
     #define CLOCK_CONF_SECOND 1000
 #endif
 
-void clock_init(void);
+void clock_init(t_clock init_val);
 t_clock clock_time(void);
 
 
