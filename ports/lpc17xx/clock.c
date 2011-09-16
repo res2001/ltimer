@@ -11,22 +11,19 @@
 
 volatile t_clock g_systicks;
 
-#ifdef CLOCK_INIT_CB
-    extern t_clock clock_get_init_val(void);
-#endif
 
 /*************************************************************************
  * инициализация системного таймера
  * использует для этого RIT
  * ***********************************************************************/
-void clock_init(t_clock init_val)
+void clock_init_val(t_clock init_val)
 {
-	g_systicks = init_val;
+    g_systicks = init_val;
 
-	LPC_SC->PCONP |= LPC_SC_PCONP_PCRIT_Msk;
+    LPC_SC->PCONP |= LPC_SC_PCONP_PCRIT_Msk;
 
-	LPC_RIT->RICTRL =0;
-	LPC_RIT->RICOUNTER = 0;
+    LPC_RIT->RICTRL =0;
+    LPC_RIT->RICOUNTER = 0;
     LPC_RIT->RICOMPVAL = SystemCoreClock / (4 * 1000);
     LPC_RIT->RIMASK = 0x0;
 

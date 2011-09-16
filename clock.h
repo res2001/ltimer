@@ -10,13 +10,15 @@
 
 #include "clock_arch.h"
 
-
 #ifndef CLOCK_CONF_SECOND
     #define CLOCK_CONF_SECOND 1000
 #endif
 
-void clock_init(t_clock init_val);
+
+void clock_init_val(t_clock init_val);
 t_clock clock_time(void);
+
+#define clock_init() clock_init_val(0);
 
 
 #endif /* SYSTICS_H_ */
