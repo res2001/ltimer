@@ -3,7 +3,7 @@
   @{
   @file clock.h
   Файл содержит заголовки функций для работы с системным счетчиком. Сами функции
-  реализуются портом для соответствующей платформы
+  реализуются портом для соответствующей платформы.
   @date 27.08.2010
   @author Borisov Alexey <borisov@lcard.ru>
   *****************************************************************************/
@@ -11,6 +11,7 @@
 #define CLOCK_H_
 
 #include "clock_arch.h"
+#include "lcspec.h"
 
 #ifndef CLOCK_CONF_SECOND
     /** Константа, определяющее количество отсчетов симтемного счетчика в секунду */
@@ -23,7 +24,12 @@ void clock_init_val(t_clock init_val);
 t_clock clock_time(void);
 
 /** Запуск системного счетчика в случае, если его начальное значение не важно */
-#define clock_init() clock_init_val(0);
+static LINLINE void clock_init(void)
+{
+    clock_init_val(0);
+}
 
 
 #endif /* CLOCK_H_ */
+
+/** @} */
