@@ -7,8 +7,21 @@
   @author Borisov Alexey <borisov@lcard.ru>
  ******************************************************************************/
 
-#include "clock.h"
-#include "time.h"
+#include <clock.h>
+#include <time.h>
+
+
+#ifdef HAVE_CONFIG_H
+    #include "config.h"
+#endif
+
+#ifdef HAVE_SYS_TIMERS_H
+    #include <sys/timers.h>
+#endif
+
+#ifndef CLOCK_MONOTONIC
+    #define CLOCK_MONOTONIC TIMEOFDAY
+#endif
 
 void clock_init_val(t_clock init_val)
 {
