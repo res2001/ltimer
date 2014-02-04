@@ -13,14 +13,14 @@
 
 
 static volatile t_clock f_systicks;
+static uint8_t f_initialized = 0;
 
 
 /*************************************************************************
  * инициализация системного таймера
  * использует для этого RIT
  * ***********************************************************************/
-void clock_init_val(t_clock init_val)
-{
+void clock_init_val(t_clock init_val) {
     /* инициализруем счетчик */
     f_systicks = init_val;
 
@@ -38,18 +38,22 @@ void clock_init_val(t_clock init_val)
 
     /* разрешаем прерывания */
     NVIC->ISER[ 0 ] = LPC_NVIC_ISER0_ISE_RIT_Msk;
+
+    f_initialized = 1;
+}
+
+int clock_is_initialized(void) {
+    return f_initialized;
 }
 
 
 /* получить кол-во системных тиков из статичиской переменной */
-t_clock clock_time(void)
-{
+t_clock clock_time(void) {
     return f_systicks;
 }
 
 /* обработка прерывания от RIT - обновление числа тиков */
-void RIT_IRQHandler(void)
-{
+void RIT_IRQHandler(void) {
     LPC_RIT->RICTRL |= LPC_RIT_RICTRL_RITINT_Msk;
     f_systicks++;
 }

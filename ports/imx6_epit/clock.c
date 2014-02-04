@@ -12,8 +12,7 @@
 #include "registers/regsepit.h"
 
 //! @brief Available clock sources for the timers.
-enum _timer_clock_sources
-{
+enum _timer_clock_sources  {
     CLKSRC_OFF = 0,     //!< clock source is OFF
     CLKSRC_IPG_CLK = 1, //!< clock source is peripheral clock
     CLKSRC_PER_CLK = 2, //!< clock source is high-freq reference clock
@@ -21,14 +20,13 @@ enum _timer_clock_sources
     CLKSRC_CKIL = 3     //!< clock source is low-freq reference clock
 };
 
-
+static uint8_t f_initialized = 0;
 
 /*************************************************************************
  * инициализация системного таймера
  * использует для этого RIT
  * ***********************************************************************/
-void clock_init_val(t_clock init_val)
-{
+void clock_init_val(t_clock init_val) {
     uint32_t freq = get_main_clock(IPG_CLK);
     uint32_t control_reg_tmp = 0;
     uint32_t base = REGS_EPIT_BASE(CLOCK_CONF_EPIT_INST);
@@ -64,12 +62,17 @@ void clock_init_val(t_clock init_val)
 
     // finally, enable the counter
     HW_EPIT_CR_SET(CLOCK_CONF_EPIT_INST, BM_EPIT_CR_EN);
+
+    f_initialized = 1;
+}
+
+int clock_is_initialized(void) {
+    return f_initialized;
 }
 
 
 /* получить кол-во системных тиков из статичиской переменной */
-t_clock clock_time(void)
-{
+t_clock clock_time(void) {
     uint32_t val = -HW_EPIT_CNR_RD(CLOCK_CONF_EPIT_INST);
     return val;
 }

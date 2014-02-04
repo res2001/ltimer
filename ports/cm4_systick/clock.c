@@ -14,6 +14,7 @@
 extern uint32_t SystemCoreClock;
 
 static volatile t_clock f_systicks;
+static uint8_t f_initialized = 0;
 
 
 /*************************************************************************
@@ -23,8 +24,12 @@ void clock_init_val(t_clock init_val) {
     /* инициализруем счетчик */
     f_systicks = init_val;
     SysTick_Config(SystemCoreClock / CLOCK_CONF_SECOND);
+    f_initialized = 1;
 }
 
+int clock_is_initialized(void) {
+    return f_initialized;
+}
 
 /* получить кол-во системных тиков из статичиской переменной */
 t_clock clock_time(void) {

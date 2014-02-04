@@ -23,13 +23,15 @@
     #define CLOCK_MONOTONIC TIMEOFDAY
 #endif
 
-void clock_init_val(t_clock init_val)
-{
+void clock_init_val(t_clock init_val) {
     /* инициализация системного таймера не требуется */
 }
 
-t_clock clock_time(void)
-{
+int clock_is_initialized(void) {
+    return 1;
+}
+
+t_clock clock_time(void) {
     struct timespec tp;
     clock_gettime(CLOCK_MONOTONIC, &tp);
     return tp.tv_sec*1000 + tp.tv_nsec/1000000;

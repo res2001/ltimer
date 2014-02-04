@@ -26,16 +26,20 @@ void clock_init_val(t_clock init_val);
 /** Получение текущего значения системного счетчика */
 t_clock clock_time(void);
 
+/** Запуск системного счетчика в случае, если его начальное значение не важно */
+static LINLINE void clock_init(void) {
+    clock_init_val(0);
+}
+
+/** Провера, был ли уже инициализирован клок */
+int clock_is_initialized(void);
+
+
 #ifdef __cplusplus
 }
 #endif
 
 
-/** Запуск системного счетчика в случае, если его начальное значение не важно */
-static LINLINE void clock_init(void)
-{
-    clock_init_val(0);
-}
 
 
 #endif /* CLOCK_H_ */
