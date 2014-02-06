@@ -39,7 +39,11 @@ t_clock clock_time(void) {
 }
 
 /* обработка прерывания от системного таймера - обновление числа тиков */
+#if defined ( __ICCARM__ )
+void SysTick_Handler(void) {
+#else
 void SysTick_IRQHandler(void) {
+#endif
     f_systicks++;
 }
 
