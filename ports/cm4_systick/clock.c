@@ -4,16 +4,21 @@
   Файл содержит реализацию функций для работы с системным счетчиком
   для Cortex-M4 с использованием системного таймера.
 
-  Порт требует, чтобы в переменной SystemCoreClock была записана частота ядра
-  в герцах и чтобы cmsis.h включал заголовки с функциями CMSIS
-  (используется SysTick_Config)
+  Порт требует наличие файла chip.h, который включает определение LPC_SYSCLK
+  и включать функции CMSIS (используется SysTick_Config).
+  Если LPC_SYSCLK не определена, то используется значение из переменной SystemCoreClock
+
   @date 27.01.2014
   @author Borisov Alexey <borisov@lcard.ru>
  ******************************************************************************/
 #include "clock.h"
-#include "cmsis.h"
+/* файл должен определять LPC_SYSCLK и включать cmsis.h */
+#include "chip.h"
 
-extern uint32_t SystemCoreClock;
+#ifndef LPC_SYSCLK
+    extern uint32_t SystemCoreClock;
+    #define LPC_SYSCLK SystemCoreClock
+#endif
 
 static volatile t_clock f_systicks;
 static uint8_t f_initialized = 0;
@@ -25,7 +30,7 @@ static uint8_t f_initialized = 0;
 void clock_init_val(t_clock init_val) {
     /* инициализруем счетчик */
     f_systicks = init_val;
-    SysTick_Config(SystemCoreClock / CLOCK_CONF_SECOND);
+    SysTick_Config(LPC_SYSCLK / CLOCK_CONF_SECOND);
     f_initialized = 1;
 }
 
