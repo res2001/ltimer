@@ -107,8 +107,7 @@ typedef struct timer {
   @param[in] start_time  Значение системного счетчика, относительно которого
                          устанавливается временной интервал
  ******************************************************************************/
-static LINLINE void timer_set_at(t_timer *t, t_clock interval, t_clock start_time)
-{
+static LINLINE void timer_set_at(t_timer *t, t_clock interval, t_clock start_time) {
     t->interval = interval;
     t->start = start_time;
 }
@@ -122,10 +121,10 @@ static LINLINE void timer_set_at(t_timer *t, t_clock interval, t_clock start_tim
   @param[in] t        Указатель на состояние таймера
   @param[in] interval Интервал, через который таймер истечет в системных клоках.
  ******************************************************************************/
-static LINLINE void timer_set(t_timer *t, t_clock interval)
-{
+static LINLINE void timer_set(t_timer *t, t_clock interval) {
     timer_set_at(t, interval, clock_time());
 }
+
 
 /***************************************************************************//**
   @brief Сброс таймера.
@@ -138,8 +137,7 @@ static LINLINE void timer_set(t_timer *t, t_clock interval)
   @param[in] t        Указатель на состояние таймера
   @sa timer_restart()
   *****************************************************************************/
-static LINLINE void timer_reset(t_timer *t)
-{
+static LINLINE void timer_reset(t_timer *t) {
     t->start += t->interval;
 }
 
@@ -155,8 +153,7 @@ static LINLINE void timer_reset(t_timer *t)
   @param[in] t        Указатель на состояние таймера
   @sa timer_reset()
   *****************************************************************************/
-static LINLINE void timer_restart(t_timer *t)
-{
+static LINLINE void timer_restart(t_timer *t) {
     t->start = clock_time();
 }
 
@@ -170,8 +167,7 @@ static LINLINE void timer_restart(t_timer *t)
                         истечет ли таймер в данный момент
     @return             Не ноль, если интервал истечет, иначе - ноль
  ******************************************************************************/
-static LINLINE int timer_expired_at(const t_timer *t, t_clock exp_time)
-{
+static LINLINE int timer_expired_at(const t_timer *t, t_clock exp_time) {
     return (t_clock)(exp_time - t->start) >= (t_clock)t->interval;
 }
 
@@ -182,8 +178,7 @@ static LINLINE int timer_expired_at(const t_timer *t, t_clock exp_time)
     @param[in] t        Указатель на состояние таймера
     @return             Не ноль, если интервал истек, иначе - ноль
  ******************************************************************************/
-static LINLINE int timer_expired(const t_timer *t)
-{
+static LINLINE int timer_expired(const t_timer *t) {
     return timer_expired_at(t, clock_time());
 }
 
@@ -197,8 +192,7 @@ static LINLINE int timer_expired(const t_timer *t)
                         до момента истечения интервала
     @return             Время (в клоках системного счетчика) до истечения интервала
 *******************************************************************************/
-static LINLINE t_clock timer_expiration_from(const t_timer* t, t_clock cur_time)
-{
+static LINLINE t_clock timer_expiration_from(const t_timer* t, t_clock cur_time) {
     t_clock expired = (cur_time-t->start);
     return (expired > t->interval) ? 0 : t->interval - expired;
 }
@@ -211,8 +205,7 @@ static LINLINE t_clock timer_expiration_from(const t_timer* t, t_clock cur_time)
     @param[in] t        Указатель на состояние таймера
     @return             Время (в клоках системного счетчика) до истечения интервала
 *******************************************************************************/
-static LINLINE t_clock timer_expiration(const t_timer* t)
-{
+static LINLINE t_clock timer_expiration(const t_timer* t) {
     return timer_expiration_from(t, clock_time());
 }
 
