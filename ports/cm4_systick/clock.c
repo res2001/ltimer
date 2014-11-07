@@ -43,6 +43,11 @@ t_clock clock_time(void) {
     return f_systicks;
 }
 
+void clock_disable(void) {
+    SysTick->CTRL = 0;
+    f_initialized = 0;
+}
+
 /* обработка прерывания от системного таймера - обновление числа тиков */
 #if defined ( __ICCARM__ )
 void SysTick_Handler(void) {

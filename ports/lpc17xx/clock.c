@@ -37,7 +37,8 @@ void clock_init_val(t_clock init_val) {
             | LPC_RIT_RICTRL_RITENBR_Msk;
 
     /* разрешаем прерывания */
-    NVIC->ISER[ 0 ] = LPC_NVIC_ISER0_ISE_RIT_Msk;
+    NVIC_EnableIRQ(RIT_IRQn);
+
 
     f_initialized = 1;
 }
@@ -51,6 +52,13 @@ int clock_is_initialized(void) {
 t_clock clock_time(void) {
     return f_systicks;
 }
+
+void clock_disable(void) {
+    NVIC_DisableIRQ(RIT_IRQn);
+    LPC_RIT->RICTRL = 0;
+    f_initialized = 0;
+}
+
 
 /* обработка прерывания от RIT - обновление числа тиков */
 void RIT_IRQHandler(void) {

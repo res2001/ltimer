@@ -39,6 +39,9 @@ static LINLINE void clock_init(void) {
 /** Провера, был ли уже инициализирован клок */
 int clock_is_initialized(void);
 
+/** Запрет работы системного клока */
+void clock_disable(void);
+
 
 #ifdef __cplusplus
 }
