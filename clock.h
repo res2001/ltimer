@@ -18,9 +18,13 @@
     #define CLOCK_CONF_SECOND 1000
 #endif
 
-
-#define TIMER_MS_TO_CLOCKS(tout) ((tout)*CLOCK_CONF_SECOND/1000)
-#define TIMER_CLOCKS_TO_MS(tout) ((tout)*1000/CLOCK_CONF_SECOND)
+#if CLOCK_CONF_SECOND == 1000
+    #define TIMER_MS_TO_CLOCKS(tout)  (tout)
+    #define TIMER_CLOCKS_TO_MS(tout)  (tout)
+#else
+    #define TIMER_MS_TO_CLOCKS(tout) ((tout)*CLOCK_CONF_SECOND/1000)
+    #define TIMER_CLOCKS_TO_MS(tout) ((tout)*1000/CLOCK_CONF_SECOND)
+#endif
 
 
 #ifdef __cplusplus
