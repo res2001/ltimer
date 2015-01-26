@@ -49,6 +49,7 @@ void clock_disable(void) {
 }
 
 /* обработка прерывания от системного таймера - обновление числа тиков */
+#include "lcspec_interrupt.h"
 #if defined ( __ICCARM__ )
 void SysTick_Handler(void) {
 #else

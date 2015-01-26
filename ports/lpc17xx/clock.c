@@ -61,6 +61,7 @@ void clock_disable(void) {
 
 
 /* обработка прерывания от RIT - обновление числа тиков */
+#include "lcspec_interrupt.h"
 void RIT_IRQHandler(void) {
     LPC_RIT->RICTRL |= LPC_RIT_RICTRL_RITINT_Msk;
     f_systicks++;
