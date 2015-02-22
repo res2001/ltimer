@@ -1,17 +1,16 @@
 /***************************************************************************//**
-  @ingroup timer_cm4_systick
-  @file ports/cm4_systick/clock.c
+  @ingroup ltimer_cm_systick
+  @file ports/cm_systick/lclock.c
   Файл содержит реализацию функций для работы с системным счетчиком
-  для Cortex-M4 с использованием системного таймера.
+  для Cortex-M с использованием системного таймера.
 
   Порт требует наличие файла chip.h, который включает определение LPC_SYSCLK
   и включать функции CMSIS (используется SysTick_Config).
   Если LPC_SYSCLK не определена, то используется значение из переменной SystemCoreClock
 
-  @date 27.01.2014
   @author Borisov Alexey <borisov@lcard.ru>
  ******************************************************************************/
-#include "clock.h"
+#include "lclock.h"
 /* файл должен определять LPC_SYSCLK и включать cmsis.h */
 #include "chip.h"
 
@@ -20,30 +19,29 @@
     #define LPC_SYSCLK SystemCoreClock
 #endif
 
-static volatile t_clock f_systicks;
+static volatile t_lclock_ticks f_systicks;
 static uint8_t f_initialized = 0;
 
 
 /*************************************************************************
  * инициализация системного таймера
  * ***********************************************************************/
-void clock_init_val(t_clock init_val) {
-    /* инициализруем счетчик */
+void lclock_init_val(t_lclock_ticks init_val) {
+    /* инициализируем счетчик */
     f_systicks = init_val;
-    SysTick_Config(LPC_SYSCLK / CLOCK_CONF_SECOND);
+    SysTick_Config(LPC_SYSCLK / LCLOCK_TICKS_PER_SECOND);
     f_initialized = 1;
 }
 
-int clock_is_initialized(void) {
+int lclock_is_initialized(void) {
     return f_initialized;
 }
 
-/* получить кол-во системных тиков из статичиской переменной */
-t_clock clock_time(void) {
+t_lclock_ticks lclock_get_ticks(void) {
     return f_systicks;
 }
 
-void clock_disable(void) {
+void lclock_disable(void) {
     SysTick->CTRL = 0;
     f_initialized = 0;
 }

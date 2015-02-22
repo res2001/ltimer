@@ -1,18 +1,17 @@
 /***************************************************************************//**
-  @ingroup timer_lpc17xx_rit
-  @file ports/lpc17xx/clock.c
+  @ingroup ltimer_lpc17xx_rit
+  @file ports/lpc17xx_rit/lclock.c
   Файл содержит реализацию функций для работы с системным счетчиком
   в LPC17xx с использованием RIT.
-  @date 16.09.2011
-  @author Borisov Alexey <borisov@lcard.ru>
+   @author Borisov Alexey <borisov@lcard.ru>
  ******************************************************************************/
-#include "clock.h"
+#include "lclock.h"
 #include "LPC17xx.h"
 #include "iolpc17XX.h"
 #include "system_LPC17xx.h"
 
 
-static volatile t_clock f_systicks;
+static volatile t_lclock_ticks f_systicks;
 static uint8_t f_initialized = 0;
 
 
@@ -20,8 +19,8 @@ static uint8_t f_initialized = 0;
  * инициализация системного таймера
  * использует для этого RIT
  * ***********************************************************************/
-void clock_init_val(t_clock init_val) {
-    /* инициализруем счетчик */
+void lclock_init_val(t_lclock_ticks init_val) {
+    /* инициализируем счетчик */
     f_systicks = init_val;
 
     /* подаем питание на RIT */
@@ -43,17 +42,16 @@ void clock_init_val(t_clock init_val) {
     f_initialized = 1;
 }
 
-int clock_is_initialized(void) {
+int lclock_is_initialized(void) {
     return f_initialized;
 }
 
 
-/* получить кол-во системных тиков из статичиской переменной */
-t_clock clock_time(void) {
+t_lclock_ticks lclock_get_ticks(void) {
     return f_systicks;
 }
 
-void clock_disable(void) {
+void lclock_disable(void) {
     NVIC_DisableIRQ(RIT_IRQn);
     LPC_RIT->RICTRL = 0;
     f_initialized = 0;
