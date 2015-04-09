@@ -17,9 +17,19 @@
 #ifndef LCLOCK_ARCH_H_
 #define LCLOCK_ARCH_H_
 
+#include "lcspec.h"
+
 /** Количество тиков системного таймера в секунду */
 #define LCLOCK_TICKS_PER_SECOND 1000
 /** Тип для представления количества системных тиков */
 typedef unsigned int t_lclock_ticks;
+
+
+extern volatile t_lclock_ticks lclock_systicks;
+
+
+static LINLINE t_lclock_ticks lclock_get_ticks(void) {
+    return lclock_systicks;
+}
 
 #endif /* LCLOCK_ARCH_H_ */

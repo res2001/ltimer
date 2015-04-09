@@ -19,7 +19,7 @@
     #define LPC_SYSCLK SystemCoreClock
 #endif
 
-static volatile t_lclock_ticks f_systicks;
+volatile t_lclock_ticks lclock_systicks;
 static uint8_t f_initialized = 0;
 
 
@@ -28,17 +28,13 @@ static uint8_t f_initialized = 0;
  * ***********************************************************************/
 void lclock_init_val(t_lclock_ticks init_val) {
     /* инициализируем счетчик */
-    f_systicks = init_val;
+    lclock_systicks = init_val;
     SysTick_Config(LPC_SYSCLK / LCLOCK_TICKS_PER_SECOND);
     f_initialized = 1;
 }
 
 int lclock_is_initialized(void) {
     return f_initialized;
-}
-
-t_lclock_ticks lclock_get_ticks(void) {
-    return f_systicks;
 }
 
 void lclock_disable(void) {
@@ -53,6 +49,6 @@ void SysTick_Handler(void) {
 #else
 void SysTick_IRQHandler(void) {
 #endif
-    f_systicks++;
+    lclock_systicks++;
 }
 

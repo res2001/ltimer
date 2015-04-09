@@ -11,7 +11,7 @@
 #include "system_LPC17xx.h"
 
 
-static volatile t_lclock_ticks f_systicks;
+static volatile t_lclock_ticks lclock_systicks;
 static uint8_t f_initialized = 0;
 
 
@@ -21,7 +21,7 @@ static uint8_t f_initialized = 0;
  * ***********************************************************************/
 void lclock_init_val(t_lclock_ticks init_val) {
     /* инициализируем счетчик */
-    f_systicks = init_val;
+    lclock_systicks = init_val;
 
     /* подаем питание на RIT */
     LPC_SC->PCONP |= LPC_SC_PCONP_PCRIT_Msk;
@@ -48,7 +48,7 @@ int lclock_is_initialized(void) {
 
 
 t_lclock_ticks lclock_get_ticks(void) {
-    return f_systicks;
+    return lclock_systicks;
 }
 
 void lclock_disable(void) {
@@ -62,6 +62,6 @@ void lclock_disable(void) {
 #include "lcspec_interrupt.h"
 void RIT_IRQHandler(void) {
     LPC_RIT->RICTRL |= LPC_RIT_RICTRL_RITINT_Msk;
-    f_systicks++;
+    lclock_systicks++;
 }
 
