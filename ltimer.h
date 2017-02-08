@@ -135,7 +135,7 @@ static LINLINE void ltimer_set(t_ltimer *t, t_lclock_ticks interval) {
   С помощью функции ltimer_expired() можно в дальнейшем проверить, истек ли
   заданный интервал.
   @param[in] t        Указатель на состояние таймера
-  @param[in] interval Интервал, через который таймер истечет в милисекундах.
+  @param[in] ms       Интервал, через который таймер истечет в милисекундах.
  ******************************************************************************/
 static LINLINE void ltimer_set_ms(t_ltimer *t, unsigned ms) {
     ltimer_set(t, LTIMER_MS_TO_CLOCK_TICKS(ms));
