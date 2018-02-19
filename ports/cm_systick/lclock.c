@@ -50,5 +50,8 @@ void SysTick_Handler(void) {
 void SysTick_IRQHandler(void) {
 #endif
     lclock_systicks++;
+#ifdef LCLOCK_USE_USER_MS_CB
+    lclock_user_ms_cb();
+#endif
 }
 

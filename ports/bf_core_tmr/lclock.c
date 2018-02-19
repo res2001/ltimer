@@ -41,4 +41,7 @@ void lclock_disable(void) {
 
 ISR(lclock_isr) {
     lclock_systicks++;
+#ifdef LCLOCK_USE_USER_MS_CB
+    lclock_user_ms_cb();
+#endif
 }

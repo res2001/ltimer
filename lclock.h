@@ -56,6 +56,13 @@ int lclock_is_initialized(void);
 /** Запрет работы системного счетчика */
 void lclock_disable(void);
 
+/** Для некоторых портов есть возможность реализовать пользовательскую функцию,
+ * которая будет вызываться раз в мс. Для этого необходимо глобально определить
+ * LCLOCK_USE_USER_MS_CB и реализовать функцию lclock_user_ms_cb() */
+#ifdef LCLOCK_USE_USER_MS_CB
+    extern void lclock_user_ms_cb(void);
+#endif
+
 
 #ifdef __cplusplus
 }

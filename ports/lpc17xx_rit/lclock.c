@@ -63,5 +63,8 @@ void lclock_disable(void) {
 void RIT_IRQHandler(void) {
     LPC_RIT->RICTRL |= LPC_RIT_RICTRL_RITINT_Msk;
     lclock_systicks++;
+#ifdef LCLOCK_USE_USER_MS_CB
+    lclock_user_ms_cb();
+#endif
 }
 
