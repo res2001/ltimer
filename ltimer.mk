@@ -31,6 +31,8 @@ ifndef LTIMER_PORT
         LTIMER_PORT = bf_core_tmr
     else ifeq ($(LTIMER_TARGET), imx6)
         LTIMER_PORT = imx6_epit
+    else ifeq ($(LTIMER_TARGET), stm32h7xx)
+        LTIMER_PORT = cm_systick
     endif
 endif
 

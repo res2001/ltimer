@@ -12,7 +12,7 @@
 
 
 static volatile t_lclock_ticks lclock_systicks;
-static uint8_t f_initialized = 0;
+static char f_initialized = 0;
 
 
 /*************************************************************************
@@ -42,7 +42,7 @@ void lclock_init_val(t_lclock_ticks init_val) {
     f_initialized = 1;
 }
 
-int lclock_is_initialized(void) {
+char lclock_is_initialized(void) {
     return f_initialized;
 }
 

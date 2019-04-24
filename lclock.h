@@ -51,7 +51,7 @@ static LINLINE void lclock_init(void) {
 }
 
 /** Проверка, был ли уже инициализирован системный счетчик */
-int lclock_is_initialized(void);
+char lclock_is_initialized(void);
 
 /** Запрет работы системного счетчика */
 void lclock_disable(void);

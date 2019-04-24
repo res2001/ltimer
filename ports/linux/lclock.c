@@ -27,7 +27,7 @@ void lclock_init_val(t_lclock_ticks init_val) {
     /* инициализация системного таймера не требуется */
 }
 
-int lclock_is_initialized(void) {
+char lclock_is_initialized(void) {
     return 1;
 }
 

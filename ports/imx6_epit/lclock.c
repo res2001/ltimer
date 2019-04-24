@@ -19,7 +19,7 @@ enum _timer_clock_sources  {
     CLKSRC_CKIL = 3     //!< clock source is low-freq reference clock
 };
 
-static uint8_t f_initialized = 0;
+static char f_initialized = 0;
 
 /*************************************************************************
  * инициализация системного таймера
@@ -65,7 +65,7 @@ void lclock_init_val(t_lclock_ticks init_val) {
     f_initialized = 1;
 }
 
-int lclock_is_initialized(void) {
+char lclock_is_initialized(void) {
     return f_initialized;
 }
 
