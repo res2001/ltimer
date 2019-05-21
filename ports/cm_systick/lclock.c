@@ -14,9 +14,19 @@
 /* файл должен определять LPC_SYSCLK и включать cmsis.h */
 #include "chip.h"
 
-#ifndef LPC_SYSCLK
-    extern uint32_t SystemCoreClock;
-    #define LPC_SYSCLK SystemCoreClock
+#ifndef LCLOCK_IN_CLK_FREQ
+    #ifdef CHIP_CLK_SYSTICK_FREQ
+        /* используем частоту SysTick, если она определена в chip */
+        #define LCLOCK_IN_CLK_FREQ CHIP_CLK_SYSTICK_FREQ
+    #elif defined LPC_SYSCLK
+        /* для совместимости с версией chip, где определялось только значение LPC_SYSCLK */
+        #define LCLOCK_IN_CLK_FREQ LPC_SYSCLK
+    #else
+        /* если другие варианты не определены, то используем вариант с внешней
+         * переменной, который в частности используется в lpcopen */
+        extern uint32_t SystemCoreClock;
+        #define LCLOCK_IN_CLK_FREQ SystemCoreClock
+    #endif
 #endif
 
 volatile t_lclock_ticks lclock_systicks;
@@ -29,7 +39,7 @@ static char f_initialized = 0;
 void lclock_init_val(t_lclock_ticks init_val) {
     /* инициализируем счетчик */
     lclock_systicks = init_val;
-    SysTick_Config(LPC_SYSCLK / LCLOCK_TICKS_PER_SECOND);
+    SysTick_Config(LCLOCK_IN_CLK_FREQ / LCLOCK_TICKS_PER_SECOND);
     f_initialized = 1;
 }
 
