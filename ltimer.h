@@ -183,7 +183,7 @@ static LINLINE void ltimer_restart(t_ltimer *t) {
     @return             Не ноль, если интервал истечет, иначе --- ноль
  ******************************************************************************/
 static LINLINE int ltimer_expired_at(const t_ltimer *t, t_lclock_ticks exp_time) {
-    return (t_lclock_ticks)(exp_time - t->start) >= (t_lclock_ticks)t->interval;
+    return (t_lclock_ticks)(exp_time - t->start) > (t_lclock_ticks)t->interval;
 }
 
 /***************************************************************************//**
