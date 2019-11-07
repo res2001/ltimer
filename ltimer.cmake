@@ -4,15 +4,17 @@
 #    LCSPEC_DIR   - путь к директории, где находится файлы lcspec
 #
 # После включения будут установлены следующие перменные:
-#   LTIMER_HEADERS - используемые заголовочные файлы
-#   LTIMER_SOURCES - используемые файлы исходных кодов
-#   LTIMER_LIBS    - используемые библиотеки
+#   LTIMER_HEADERS      - используемые заголовочные файлы
+#   LTIMER_SOURCES      - используемые файлы исходных кодов
+#   LTIMER_LIBS         - используемые библиотеки
+#   LTIMER_DEFINITIONS  - используемые определения компилятора
 
 cmake_policy(PUSH)
 
 cmake_minimum_required(VERSION 2.6)
 
 include(CheckLibraryExists)
+include(CheckFunctionExists)
 
 
 set (LTIMER_HEADERS 
@@ -39,6 +41,14 @@ if(UNIX)
     check_library_exists(rt clock_gettime "" HAVE_LIBRT)
     if(${HAVE_LIBRT})
         set(LTIMER_LIBS ${TIMER_LIBS} rt)
+    else(${HAVE_LIBRT})
+        set(CMAKE_REQUIRED_INCLUDES time.h)
+        # проверяем наличие clock_gettime вне librt.
+        # если нет, то можем откатиться к gettimeofday
+        check_function_exists(clock_gettime HAVE_CLOCKGETTIME)
+        if(NOT HAVE_CLOCKGETTIME)
+            set(LTIMER_DEFINITIONS LTIMER_USE_GETTIMEOFDAY)
+         endif(NOT HAVE_CLOCKGETTIME)
     endif(${HAVE_LIBRT})
 endif(UNIX)
 

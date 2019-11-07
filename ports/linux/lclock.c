@@ -9,6 +9,7 @@
 
 #include "lclock.h"
 #include <time.h>
+#include <stddef.h>
 
 
 #ifdef HAVE_CONFIG_H
@@ -19,8 +20,18 @@
     #include <sys/timers.h>
 #endif
 
-#ifndef CLOCK_MONOTONIC
-    #define CLOCK_MONOTONIC TIMEOFDAY
+
+
+#ifdef LTIMER_USE_GETTIMEOFDAY
+    #include <sys/time.h>
+#else
+
+#ifdef CLOCK_MONOTONIC
+    #define LTIMER_CLK_ID CLOCK_MONOTONIC
+#else
+    #define LTIMER_CLK_ID TIMEOFDAY
+#endif
+
 #endif
 
 void lclock_init_val(t_lclock_ticks init_val) {
@@ -32,9 +43,15 @@ char lclock_is_initialized(void) {
 }
 
 t_lclock_ticks lclock_get_ticks(void) {
+#ifdef LTIMER_USE_GETTIMEOFDAY
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec*1000 + tv.tv_usec/1000;
+#else
     struct timespec tp;
-    clock_gettime(CLOCK_MONOTONIC, &tp);
+    clock_gettime(LTIMER_CLK_ID, &tp);
     return tp.tv_sec*1000 + tp.tv_nsec/1000000;
+#endif
 }
 
 
