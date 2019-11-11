@@ -22,7 +22,7 @@
 
 
 
-#ifdef LTIMER_USE_GETTIMEOFDAY
+#ifdef NO_CLOCKGETTIME
     #include <sys/time.h>
 #else
 
@@ -43,7 +43,7 @@ char lclock_is_initialized(void) {
 }
 
 t_lclock_ticks lclock_get_ticks(void) {
-#ifdef LTIMER_USE_GETTIMEOFDAY
+#ifdef NO_CLOCKGETTIME
     struct timeval tv;
     gettimeofday(&tv, NULL);
     return tv.tv_sec*1000 + tv.tv_usec/1000;
